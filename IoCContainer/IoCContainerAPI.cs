@@ -1,4 +1,4 @@
-﻿using IoCContainer.Configuration;
+﻿using System;
 
 namespace IoCContainer
 {
@@ -6,18 +6,18 @@ namespace IoCContainer
    {
       public IoCContainerAPI(string configFilePath)
       {
-         container = new ConfigurationContainer(configFilePath);
+         container = new ImplementationGeneratorContainer(configFilePath);
       }
 
       #region Methods
       public TInterface GetInterfaceImplementation<TInterface>()
       {
-         return container.GetInterfaceImplementantion<TInterface>();
+         return container.RetrieveInterfaceImplementantion<TInterface>();
       }
       #endregion
 
       #region Fields
-      ConfigurationContainer container;
+      ImplementationGeneratorContainer container;
       #endregion
    }
 }

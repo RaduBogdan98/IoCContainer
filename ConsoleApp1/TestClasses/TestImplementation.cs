@@ -4,9 +4,9 @@
    {
       private string name;
       private int value;
-      TestInterface2 implementation;
+      TestInterface3 implementation;
 
-      public TestImplementation(string name, int value, TestInterface2 implementation)
+      public TestImplementation(string name, int value, TestInterface3 implementation)
       {
          this.name = name;
          this.value = value;
