@@ -4,7 +4,7 @@ The IoC Container project is a dependency injection container built for .NET5 pr
 
 ## Config-File Example
 
-```javascript
+```Perl
 {
  "DependencyContainers": [
   {
