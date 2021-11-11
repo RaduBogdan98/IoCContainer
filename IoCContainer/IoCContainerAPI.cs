@@ -12,7 +12,19 @@ namespace IoCContainer
       #region Methods
       public TInterface GetInterfaceImplementation<TInterface>()
       {
-         return container.RetrieveInterfaceImplementantion<TInterface>();
+         try
+         {
+            return container.RetrieveInterfaceImplementantion<TInterface>();
+         }
+         catch (Exception e)
+         {
+            Console.WriteLine(e.StackTrace);
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(e.Message);
+            Console.ResetColor();
+
+            return default;
+         }
       }
       #endregion
 

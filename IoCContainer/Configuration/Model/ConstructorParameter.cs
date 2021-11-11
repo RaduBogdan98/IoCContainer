@@ -8,12 +8,12 @@ namespace IoCContainer.Configuration
       internal object Value;
 
       [JsonProperty]
-      internal string ValueType;
+      internal string TypeRefference;
 
       public ConstructorParameter(object value)
       {
          this.Value = value;
-         this.ValueType = value.GetType().ToString();
+         this.TypeRefference = value.GetType().ToString();
       }
 
    }

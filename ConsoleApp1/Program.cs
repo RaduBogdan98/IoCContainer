@@ -8,19 +8,9 @@ namespace ConsoleApp1
    {
       static void Main(string[] args)
       {
-         try
-         {
-            IoCContainerAPI api = new IoCContainerAPI("config.json");
-            TestInterface testVar1 = api.GetInterfaceImplementation<TestInterface>();
-            TestInterface2 testVar2 = api.GetInterfaceImplementation<TestInterface2>();
-         }
-         catch (Exception e)
-         {
-            Console.WriteLine(e.StackTrace);
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(e.Message);
-            Console.ResetColor();
-         }
+         IoCContainerAPI api = new IoCContainerAPI("config.json");
+         TestInterface testVar1 = api.GetInterfaceImplementation<TestInterface>();
+         TestInterface2 testVar2 = api.GetInterfaceImplementation<TestInterface2>();
       }
    }
 }

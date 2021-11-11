@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace IoCContainer.Configuration
 {
-   internal class DependencyContainerDescription
+   internal class DependencyContainer
    {
       [JsonProperty]
       internal string Interface;
@@ -17,7 +17,7 @@ namespace IoCContainer.Configuration
       [JsonProperty]
       internal List<ConstructorParameter> ConstructorParameters;
 
-      public DependencyContainerDescription(string implementationName, string interfaceName, string lifetime, List<ConstructorParameter> constructorParameters)
+      public DependencyContainer(string implementationName, string interfaceName, string lifetime, List<ConstructorParameter> constructorParameters)
       {
          this.Implementation = implementationName;
          this.Interface = interfaceName;

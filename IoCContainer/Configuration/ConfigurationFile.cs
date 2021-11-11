@@ -8,7 +8,7 @@ namespace IoCContainer.Configuration
    class ConfigurationFile
    {
       [JsonProperty]
-      internal List<DependencyContainerDescription> DependencyContainers;
+      internal List<DependencyContainer> DependencyContainers;
 
       public ConfigurationFile(string configFilePath)
       {
@@ -24,7 +24,7 @@ namespace IoCContainer.Configuration
       }
 
       [JsonConstructor]
-      internal ConfigurationFile(List<DependencyContainerDescription> dependencyContainers)
+      internal ConfigurationFile(List<DependencyContainer> dependencyContainers)
       {
          this.DependencyContainers = dependencyContainers;
       }

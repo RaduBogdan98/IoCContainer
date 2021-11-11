@@ -97,13 +97,13 @@ namespace IoCContainer
 
       /// <summary>
       /// Retrieves the interface configuration and calls the instatiation algorithm for the given interface 
-      /// based this configuration.
+      /// based on this configuration.
       /// </summary>
       /// <typeparam name="TInterface">The type of the interface that needs to be instantiated</typeparam>
       /// <returns>Concretion of the given interface type</returns>
       private TInterface GenerateInterfaceImplementation<TInterface>()
       {
-         DependencyContainerDescription dependencyContainerDescription = FindDependencyContainerForInterface(typeof(TInterface).Name);
+         DependencyContainer dependencyContainerDescription = FindDependencyContainerForInterface(typeof(TInterface).Name);
          if (dependencyContainerDescription != null)
          {
             return this.InstantiateConcretion<TInterface>(dependencyContainerDescription);
@@ -120,7 +120,7 @@ namespace IoCContainer
       /// <typeparam name="TInterface">The type of the interface that needs to be instantiated</typeparam>
       /// <param name="dependencyContainerDescription">dependency container specification for given interface</param>
       /// <returns>Concretion of the given interface type</returns>
-      private TInterface InstantiateConcretion<TInterface>(DependencyContainerDescription dependencyContainerDescription)
+      private TInterface InstantiateConcretion<TInterface>(DependencyContainer dependencyContainerDescription)
       {
          Type implementationType = instanceLifetimeRegister.GetValueOrDefault(typeof(TInterface))?.Item1;
 
@@ -135,7 +135,7 @@ namespace IoCContainer
 
                if (currentParameter.Value.Equals("Ref"))
                {
-                  Type parameterType = this.FindTypeByName(currentParameter.ValueType, false);
+                  Type parameterType = this.FindTypeByName(currentParameter.TypeRefference, false);
 
                   try
                   {
@@ -150,7 +150,7 @@ namespace IoCContainer
                }
                else
                {
-                  Type parameterType = Type.GetType(currentParameter.ValueType);
+                  Type parameterType = Type.GetType(currentParameter.TypeRefference);
                   parametersArray[i] = Convert.ChangeType(currentParameter.Value, parameterType);
                }  
             }
@@ -190,7 +190,7 @@ namespace IoCContainer
       /// </summary>
       /// <param name="interfaceName">Searched interface name</param>
       /// <returns>The found dependency container or null if type does not exist</returns>
-      private DependencyContainerDescription FindDependencyContainerForInterface(string interfaceName)
+      private DependencyContainer FindDependencyContainerForInterface(string interfaceName)
       {
          return configuration.DependencyContainers.FirstOrDefault(x => x.Interface.Equals(interfaceName));
       }
