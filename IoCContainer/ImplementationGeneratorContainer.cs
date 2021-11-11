@@ -1,4 +1,5 @@
 ﻿using IoCContainer.Configuration;
+using IoCContainer.Reflection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace IoCContainer
    /// </summary>
    class ImplementationGeneratorContainer
    {
+      private ReflectionResolver reflectionResolver;
       private ConfigurationFile configuration;
       private enum Lifetime { Singleton, Transient }
       private Dictionary<Type, Tuple<Type, Lifetime>> instanceLifetimeRegister;
@@ -24,6 +26,7 @@ namespace IoCContainer
 
       public ImplementationGeneratorContainer(string configFilePath)
       {
+         reflectionResolver = new ReflectionResolver();
          configuration = new ConfigurationFile(configFilePath);
          registeredSingletonImplementations = new List<object>();
          RegisterConfiguredClasses();
@@ -38,8 +41,8 @@ namespace IoCContainer
 
          foreach (var dependencyContainer in configuration.DependencyContainers)
          {
-            Type implementationType = this.FindTypeByName(dependencyContainer.Implementation, true);
-            Type interfaceType = dependencyContainer.Interface != "" ? this.FindTypeByName(dependencyContainer.Interface, false) : implementationType;
+            Type implementationType = this.reflectionResolver.FindTypeByName(dependencyContainer.Implementation, true);
+            Type interfaceType = dependencyContainer.Interface != "" ? this.reflectionResolver.FindTypeByName(dependencyContainer.Interface, false) : implementationType;
 
             if (!instanceLifetimeRegister.ContainsKey(interfaceType))
             {
@@ -135,7 +138,7 @@ namespace IoCContainer
 
                if (currentParameter.Value.Equals("Ref"))
                {
-                  Type parameterType = this.FindTypeByName(currentParameter.TypeRefference, false);
+                  Type parameterType = this.reflectionResolver.FindTypeByName(currentParameter.TypeRefference, false);
 
                   try
                   {
@@ -160,28 +163,6 @@ namespace IoCContainer
          else
          {
             throw new Exception("Interface implementation does not exist: " + implementationType.Name);
-         }
-      }
-
-      /// <summary>
-      /// Finds the type refferenced by the given type name.
-      /// </summary>
-      /// <param name="typeName">Searched type name</param>
-      /// <param name="isClass">Specifies whether type is interface or class</param>
-      /// <returns>The found type or null if type does not exist</returns>
-      private Type FindTypeByName(string typeName, bool isClass)
-      {
-         Type type = AppDomain.CurrentDomain.GetAssemblies()
-                                  .SelectMany(t => t.GetTypes())
-                                  .FirstOrDefault(t => t.IsClass == isClass && t.Name == typeName);
-
-         if (type != null)
-         {
-            return type;
-         }
-         else
-         {
-            throw new Exception("Type " + typeName + " was not found");
          }
       }
 
