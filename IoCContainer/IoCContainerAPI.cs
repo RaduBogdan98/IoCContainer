@@ -1,11 +1,4 @@
 ﻿using IoCContainer.Configuration;
-using IoCContainer.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IoCContainer
 {
@@ -13,28 +6,18 @@ namespace IoCContainer
    {
       public IoCContainerAPI(string configFilePath)
       {
-         repository = new ImplementationsRepository(configFilePath);
+         container = new ConfigurationContainer(configFilePath);
       }
 
       #region Methods
-      public void RegisterSingleton<TInterface>()
-      {
-         repository.RegisterSingleton<TInterface>();
-      }
-
-      public void RegisterTransient<TInterface>()
-      {
-         repository.RegisterTransient<TInterface>();
-      }
-
       public TInterface GetInterfaceImplementation<TInterface>()
       {
-         return repository.GetInstance<TInterface>();
+         return container.GetInterfaceImplementantion<TInterface>();
       }
       #endregion
 
       #region Fields
-      ImplementationsRepository repository;
+      ConfigurationContainer container;
       #endregion
    }
 }

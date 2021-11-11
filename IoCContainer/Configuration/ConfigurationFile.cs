@@ -23,32 +23,10 @@ namespace IoCContainer.Configuration
          }
       }
 
-      public ConfigurationFile(string configFilePath, bool serialize)
-      {
-         Serialize(configFilePath);
-      }
-
       [JsonConstructor]
       internal ConfigurationFile(List<DependencyContainerDescription> dependencyContainers)
       {
          this.DependencyContainers = dependencyContainers;
       }
-
-      
-      private void Serialize(string configFilePath)
-      {
-         JsonSerializerSettings settings = new JsonSerializerSettings();
-         settings.TypeNameHandling = TypeNameHandling.Objects;
-         ConstructorParameter p1 = new ConstructorParameter("name", "someName");
-         ConstructorParameter p2 = new ConstructorParameter("value", 12);
-         ConstructorParameter p3 = new ConstructorParameter("class", new DependencyContainerDescription("", "", "", new List<ConstructorParameter>()));
-
-         DependencyContainerDescription classDescription = new DependencyContainerDescription("TestImplementation", "TestInterface", "IoCContainer.TestClasses", new List<ConstructorParameter>() { p1, p2, p3 });
-         DependencyContainers = new List<DependencyContainerDescription>();
-         DependencyContainers.Add(classDescription);
-
-         File.WriteAllText(configFilePath, JsonConvert.SerializeObject(this, Formatting.Indented, settings));
-      }
-      
    }
 }

@@ -1,6 +1,6 @@
 ﻿namespace ConsoleApp1.TestClasses
 {
-   interface TestInterface2
+   public interface TestInterface2
    {
    }
 }
