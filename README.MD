@@ -40,3 +40,24 @@ The IoC Container project is a dependency injection container built for .NET5 pr
     ]
 }
 ```
+
+To use the container implementation you have to import the IoCContainer project in your solution. The container exposes an API which facilitates the interaction with the container. An example of using the container can be seen bellow:
+
+```csharp
+using IoCContainer;
+
+namespace Application
+{
+   class Program
+   {
+      static void Main(string[] args)
+      {
+         IoCContainerAPI api = new IoCContainerAPI("<configuration-file-path>");
+         TestInterface interfaceImplementation1 = api.GetInterfaceImplementation<TestInterface>();
+         TestInterface2 interfaceImplementation2 = api.GetInterfaceImplementation<TestInterface2>();
+      }
+   }
+}
+```
+
+The container is responsible with retrieving the correct implementation of the given interface type based on the configuration given by the user.
