@@ -38,11 +38,11 @@ namespace IoCContainer
 
          foreach (var dependencyContainer in configuration.DependencyContainers)
          {
-            Type interfaceType = this.FindTypeByName(dependencyContainer.Interface, false);
+            Type implementationType = this.FindTypeByName(dependencyContainer.Implementation, true);
+            Type interfaceType = dependencyContainer.Interface != "" ? this.FindTypeByName(dependencyContainer.Interface, false) : implementationType;
+
             if (!instanceLifetimeRegister.ContainsKey(interfaceType))
             {
-               Type implementationType = this.FindTypeByName(dependencyContainer.Implementation, true);
-
                switch (dependencyContainer.Lifetime)
                {
                   case "Singleton": instanceLifetimeRegister.Add(interfaceType, Tuple.Create(implementationType, Lifetime.Singleton)); break;
@@ -143,16 +143,16 @@ namespace IoCContainer
                      MethodInfo generic = method.MakeGenericMethod(parameterType);
                      parametersArray[i] = generic.Invoke(this, null);
                   }
-                  catch(TargetInvocationException e)
+                  catch (TargetInvocationException e)
                   {
                      throw new Exception(e.InnerException.Message);
-                  }         
+                  }
                }
                else
                {
                   Type parameterType = Type.GetType(currentParameter.TypeRefference);
                   parametersArray[i] = Convert.ChangeType(currentParameter.Value, parameterType);
-               }  
+               }
             }
 
             return (TInterface)Activator.CreateInstance(implementationType, parametersArray);
