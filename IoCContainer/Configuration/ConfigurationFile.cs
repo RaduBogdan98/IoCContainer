@@ -7,15 +7,15 @@ namespace IoCContainer.Configuration
 {
    class ConfigurationFile
    {
-      [JsonProperty]
-      internal List<DependencyContainer> DependencyContainers;
+      [JsonProperty("Configurations")]
+      internal List<InstanceConfiguration> InstanceConfigurations;
 
       public ConfigurationFile(string configFilePath)
       {
          if (File.Exists(configFilePath))
          {
             string text = File.ReadAllText(configFilePath);
-            this.DependencyContainers = JsonConvert.DeserializeObject<ConfigurationFile>(text).DependencyContainers;
+            this.InstanceConfigurations = JsonConvert.DeserializeObject<ConfigurationFile>(text).InstanceConfigurations;
          }
          else
          {
@@ -24,9 +24,9 @@ namespace IoCContainer.Configuration
       }
 
       [JsonConstructor]
-      internal ConfigurationFile(List<DependencyContainer> dependencyContainers)
+      internal ConfigurationFile(List<InstanceConfiguration> instanceConfigurations)
       {
-         this.DependencyContainers = dependencyContainers;
+         this.InstanceConfigurations = instanceConfigurations;
       }
    }
 }
