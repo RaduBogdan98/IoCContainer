@@ -86,7 +86,9 @@ namespace IoCContainer.ImplementationGeneration
 
          if (implementationType != null)
          {
-            return (TInterface)Activator.CreateInstance(implementationType, BuildConstructorParameters(implementationDescription.ConstructorParameters));
+            return implementationDescription.ConstructorParameters.Count > 0 ?
+                  (TInterface)Activator.CreateInstance(implementationType, BuildConstructorParameters(implementationDescription.ConstructorParameters)) :
+                  (TInterface)Activator.CreateInstance(implementationType, null);
          }
          else
          {
